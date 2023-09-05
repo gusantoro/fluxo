@@ -17,7 +17,7 @@ class LancamentoFactory extends Factory
     public function definition(): array
     {
         return [
-            'id_user' => '1',
+            'id_user' => fake()->numberBetween(1,150),
             'id_tipo' => fake()->numberBetween(1,2),
             'id_centro_custo' => fake()->numberBetween(1,3),
             'valor' => fake()->numberBetween(1,13455),
