@@ -1,11 +1,22 @@
 @extends('layouts.base')
 @section('content')
-    <h1>INDEX - LANCAMENTO</h1>
+    <h1>
+        <i class="bi bi-wallet-2"></i>
+        LANCAMENTO
+        |
+        <a class="btn btn-primary"
+        href="{{ route('lancamento.create') }}">
+            Novo Lançamento
+        </a>
+    </h1>
     <h2>{{ Auth::user()->names }}</h2>
 
     {{-- alerts --}}
     @include('layouts.partials.alerts')
     {{-- /alerts --}}
+    {{-- paginação --}}
+        {!! $lancamentos->links() !!}
+    {{-- /paginação --}}
 
     <div class="table-responsive">
         <table class="table table-striped  table-hover ">
@@ -13,13 +24,21 @@
                 <caption>LISTA DE</caption>
                 <tr>
                     <th>#</th>
-                    <th>Column 2</th>
-                    <th>Column 3</th>
+                    <th>Vencimento</th>
+                    <th>Tipo</th>
+                    <th>Valor</th>
+                    <th>Centro de Custo</th>
+                    <th>Descrição</th>
+                    <th>Usuario</th>
+                    <th>Data do Lançamento</th>
                 </tr>
             </thead>
             <tbody class="table-group-divider">
+                @forelse ( $lancamentos as $lancamento )
+
+
                 <tr>
-                    <td scope="row" class="col-1">
+                    <td scope="row" class="col-2">
                         <div class="flex-column">
                             {{-- ver --}}
                             <a class="btn btn-success" href="#">
@@ -36,9 +55,23 @@
                             </button>
                         </div>
                     </td>
-                    <td>Item</td>
-                    <td>Item</td>
+                    <td>{{ $lancamento->vencimento->format('d/m/Y')}}</td>
+                    <td>{{ $lancamento->tipo->tipo }}</td>
+                    <td>{{ $lancamento->valor }}</td>
+                    <td>{{ $lancamento->centoCusto->centro_custo }}</td>
+                    <td>{{ $lancamento->descricao }}</td>
+                    <td>{{ $lancamento->usuario->name }}</td>
+                    <td>
+                        {{ $lancamento->created_at->format('d/m/Y \a\s H:i') }}h
+                    </td>
                 </tr>
+                @empty
+                    <tr>
+                        <td colspan="8">
+                            Nenhum registro retornado
+                        </td>
+                    </tr>
+                @endforelse
             </tbody>
         </table>
     </div>
